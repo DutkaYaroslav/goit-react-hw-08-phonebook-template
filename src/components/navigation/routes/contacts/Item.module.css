@@ -1,0 +1,63 @@
+li {
+  margin: auto;
+}
+
+.contact {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.name {
+  margin: 0 0 0.25rem 0;
+  font-style: italic;
+}
+
+.number {
+  margin-top: 0.25rem;
+  font-weight: bold;
+  color: #ad5502;
+  font-size: 1.25rem;
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.actions button {
+  cursor: pointer;
+  font: inherit;
+  color: white;
+  background-color: #2f4248;
+  border: 1px solid #2f4248;
+  border-radius: 4px;
+  padding: 0.5rem 2.5rem;
+}
+
+.actions button:hover {
+  background-color: #2a3c40;
+  border-color: #2a3c40;
+}
+
+.actions .toggle {
+  margin-top: 1rem;
+  background-color: transparent;
+  color: #fee1e6;
+  border: none;
+  padding: 0.15rem 1.5rem;
+}
+
+.actions .toggle:hover {
+  background-color: transparent;
+  color: #fee1e6;
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+}

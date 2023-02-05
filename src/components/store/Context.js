@@ -1,6 +1,6 @@
 //all fetches and auth state
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
@@ -30,6 +30,12 @@ const removeAuthToken = () => {
 const AuthContextProvider = props => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const loginHandler = async (email, password) => {
     const toSend = { email, password };

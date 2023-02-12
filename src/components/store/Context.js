@@ -17,7 +17,7 @@ export const Context = React.createContext({
   token: token => {},
   contacts: date => {},
   refresh: () => {},
-  isRefreshed: false,
+  isRefreshed: () => {},
 });
 
 const setAuthHeader = token => {

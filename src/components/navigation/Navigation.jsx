@@ -8,12 +8,17 @@ const Navigation = () => {
   let [email, setEmail] = useState('');
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   authContext.refresh();
+  // }, []);
+
   useEffect(() => {
     let isEmail = localStorage.getItem('email');
 
     if (!isEmail) return;
     setEmail(isEmail);
   }, [email]);
+
   const logoutHandler = () => {
     authContext.logout();
     navigate('/login');

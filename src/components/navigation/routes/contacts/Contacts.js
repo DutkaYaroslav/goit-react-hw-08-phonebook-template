@@ -9,6 +9,7 @@ const Contacts = () => {
   const authContext = useContext(Context);
   const [itemsFetched, setItemsFethed] = useState([]);
   const [search, setSearch] = useState('');
+  const [tokenIsSet, setTokenIsSet] = useState(false);
 
   const removeItem = async id => {
     await authContext.delete(id);
@@ -36,8 +37,6 @@ const Contacts = () => {
     if (search.length === 0) {
       filteredItems = result;
     } else {
-      console.log('have input', search);
-
       result.forEach(element => {
         if (element.name.includes(search)) filteredItems.push(element);
       });

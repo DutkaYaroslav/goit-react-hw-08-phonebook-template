@@ -16,6 +16,8 @@ export const Context = React.createContext({
   delete: id => {},
   token: token => {},
   contacts: date => {},
+  refresh: () => {},
+  isRefreshed: false,
 });
 
 const setAuthHeader = token => {
@@ -30,12 +32,8 @@ const removeAuthToken = () => {
 const AuthContextProvider = props => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const [trigger, setTrigger] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const loginHandler = async (email, password) => {
     const toSend = { email, password };
@@ -64,7 +62,7 @@ const AuthContextProvider = props => {
       return res.data;
     } catch (err) {
       removeAuthToken();
-      setIsAuthenticated(false);
+      // setIsAuthenticated(false);
 
       console.log(err);
     }
@@ -76,7 +74,9 @@ const AuthContextProvider = props => {
       removeAuthToken();
       setOrRemoveToken('');
       setIsAuthenticated(false);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getContacts = async () => {
@@ -110,7 +110,7 @@ const AuthContextProvider = props => {
 
   const deleteContact = async contactId => {
     try {
-      const res = await axios.delete(`/contacts/${contactId}`, {
+      const res = await axios.delete(`contacts/${contactId}`, {
         headers: {
           Authorization: `${localStorage.getItem('token')}`,
         },
@@ -135,10 +135,34 @@ const AuthContextProvider = props => {
     return isToken;
   };
 
+  const refreshPage = async () => {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+      return;
+    } else {
+      setAuthHeader(token);
+      try {
+        console.log('trying to refresh', token);
+        const res = await axios.get('users/current');
+        setIsAuthenticated(true);
+        setLoading(true);
+
+        return res.data;
+      } catch (err) {
+        console(err);
+      }
+    }
+  };
+
   const getAllContactsHandler = data => {
     let latestArrayOfContacts = [];
     data.forEach(contact => latestArrayOfContacts.push(contact));
     return latestArrayOfContacts;
+  };
+
+  const waitingForResponse = data => {
+    setLoading(data);
   };
 
   const auth = {
@@ -152,6 +176,8 @@ const AuthContextProvider = props => {
     add: addContact,
     token: setOrRemoveToken,
     contacts: getAllContactsHandler,
+    refresh: refreshPage,
+    isRefreshed: loading,
   };
 
   return <Context.Provider value={auth}>{props.children}</Context.Provider>;

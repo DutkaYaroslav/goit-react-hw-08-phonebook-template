@@ -1,5 +1,4 @@
 import styles from './UserProfile.module.css';
-import { Context } from '../../../store/Context';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
